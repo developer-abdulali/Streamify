@@ -1,13 +1,153 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* TW Elements is free under AGPL, with commercial license required for specific uses. See more details: https://tw-elements.com/license/ and contact us for queries at tailwind@mdbootstrap.com */
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap");
+@tailwind base;
+
+@layer base {
+  html {
+    @apply text-neutral-800;
+  }
+  html.dark {
+    @apply text-neutral-50;
+    @apply bg-neutral-800;
+  }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap");
+
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Manrope", sans-serif;
+}
+
+.sticky__header {
+  width: 100%;
+  height: 80px;
+  line-height: 80px;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+  background: white;
+  box-sizing: 3px 3px -8px 3px #ddd;
+}
+
+@layer base {
+  section {
+    @apply py-[75px];
+  }
+}
+@layer components {
+  .container {
+    @apply max-w-full w-[1440px] px-5 mx-auto;
+  }
+  .btn {
+    @apply bg-primaryColor py-[15px] px-[35px] rounded-[50px] text-white mt-[38px];
+  }
+  .heading {
+    @apply text-[44px] leading-[54px] font-bold text-headingColor;
+  }
+  .text_para {
+    @apply text-lg leading-[30px] font-[400] text-textColor mt-[18px];
+  }
+  .header {
+    @apply bg-[url(./assets/images/mask.png)] bg-no-repeat bg-center bg-cover w-full h-[100px] leading-[3];
+  }
+  .hero__section {
+    @apply bg-[url(./assets/images/hero-bg.png)] bg-no-repeat bg-center bg-cover w-full h-[100%] leading-[3];
+  }
+  .form_label {
+    @apply text-center font-semibold text-[16px] leading-7 mb-2;
+  }
+  .form_input {
+    @apply w-full px-4 py-3 border border-solid border-[#0066ff61] focus:outline-none focus:border-primaryColor text-[16px] leading-7 text-headingColor placeholder:text-textColor cursor-pointer rounded-md;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .container {
+    @apply w-full;
+  }
+  section {
+    @apply py-9;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .heading {
+    @apply text-[26px] leading-9;
+  }
+  .text_para {
+    @apply text-[16px] leading-7 mt-3;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .navigation {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    background: #00000084;
+    display: none;
+  }
+  .menu {
+    width: 15rem;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #fff;
+    z-index: 200;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    line-height: 30px;
+  }
+  .show__menu {
+    display: block;
+  }
+}
+
+.swiper-pagination-bullet {
+  width: 12px !important;
+  height: 12px !important;
+  border: 1px solid #181a1e !important;
+  opacity: 100% !important;
+  background: #fff !important;
+}
+
+.swiper-pagination-bullet-active {
+  /* background: #0067ff !important; */
+  /* border: none !important; */
+  background: black !important;
+  border: 2px solid red !important;
+}
+.swiper {
+  padding-bottom: 70 !important;
+}
+.swiper-slide.swiper-slide-next {
+  background: #0067ff !important;
+  border-radius: 12px !important;
+  box-shadow: 0px 20px 70px rgba(0, 103, 255, 0.3) !important;
+}
+.swiper-slide.swiper-slide-next h4,
+.swiper-slide.swiper-slide-next p {
+  color: #fff !important;
+}
+.swiper-pagination {
+  bottom: 10px;
+  /* top: 90%; */
 }
