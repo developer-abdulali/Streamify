@@ -3,6 +3,7 @@ import signupImg from "../assets/images/signup.gif";
 import avatar from "../assets/images/doctor-img01.png";
 import { Link } from "react-router-dom";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import uploadImageToCloudinary from "../utils/uploadCloudinary";
 
 const Signup = () => {
   const [selectFile, setSelectFile] = useState(null);
@@ -21,9 +22,11 @@ const Signup = () => {
   };
   const handleFileInputChange = async (e) => {
     const file = e.target.files[0];
-    console.log("file", file);
+    const data = await uploadImageToCloudinary(file);
+    console.log("FORM DATA", data);
   };
   const submitHandler = async (e) => {
+    console.log(formData);
     e.preventDefault();
   };
   const togglePasswordVisibility = () => {
