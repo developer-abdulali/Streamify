@@ -2,8 +2,7 @@ import Review from "../models/ReviewSchema.js";
 import Doctor from "../models/DoctorSchema.js";
 
 // getting all reviews
-
-export const getAllReview = async (req, res) => {
+export const getAllReviews = async (req, res) => {
   try {
     const reviews = await Review.find({});
     res.status(200).json({
@@ -20,12 +19,11 @@ export const getAllReview = async (req, res) => {
 };
 
 // creating a new review function
-
 export const createReview = async (req, res) => {
   if (!req.body.doctor) req.body.doctor = req.params.doctorId;
   if (!req.body.user) req.body.user = req.userId;
 
-  const newReview = await Review(req.body);
+  const newReview = new Review(req.body);
 
   try {
     const savedReview = await newReview.save();
