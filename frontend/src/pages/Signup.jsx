@@ -13,21 +13,22 @@ const Signup = () => {
     name: "",
     email: "",
     password: "",
-    photo: null,
+    photo: "",
+    // photo: selectedFile,
     gender: "",
-    role: "patient",
+    role: "patient", 
   });
   const handleInputChange = (e) => {
     setFromData({ ...formData, [e.target.name]: e.target.value });
   };
   const handleFileInputChange = async (e) => {
-    const file = e.target.files[0];
-    const data = await uploadImageToCloudinary(file);
+    // const file = e.target.files[0];
+    // const data = await uploadImageToCloudinary(file);
     console.log("FORM DATA", data);
   };
   const submitHandler = async (e) => {
-    console.log(formData);
     e.preventDefault();
+    console.log(formData);
   };
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
