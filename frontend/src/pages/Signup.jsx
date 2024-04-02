@@ -3,18 +3,18 @@ import signupImg from "../assets/images/signup.gif";
 import avatar from "../assets/images/doctor-img01.png";
 import { Link } from "react-router-dom";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-import uploadImageToCloudinary from "../utils/uploadCloudinary";
+// import uploadImageToCloudinary from "../utils/uploadCloudinary";
 
 const Signup = () => {
-  const [selectFile, setSelectFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [previewURL, setPreviewURL] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFromData] = useState({
     name: "",
     email: "",
     password: "",
-    photo: "",
-    // photo: selectedFile,
+    // photo: "",
+    photo: selectedFile,
     gender: "",
     role: "patient", 
   });
@@ -22,9 +22,10 @@ const Signup = () => {
     setFromData({ ...formData, [e.target.name]: e.target.value });
   };
   const handleFileInputChange = async (e) => {
-    // const file = e.target.files[0];
+    const file = e.target.files[0];
     // const data = await uploadImageToCloudinary(file);
-    console.log("FORM DATA", data);
+    // console.log("FORM DATA", data);
+    console.log(file);
   };
   const submitHandler = async (e) => {
     e.preventDefault();
