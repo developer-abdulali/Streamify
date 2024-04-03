@@ -1,36 +1,81 @@
 import React, { useState } from "react";
 import signupImg from "../assets/images/signup.gif";
-import avatar from "../assets/images/doctor-img01.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-// import uploadImageToCloudinary from "../utils/uploadCloudinary";
+import uploadImageToCloudinary from "../utils/uploadCloudinary";
+import { BASE_URL } from "../config";
+import toast from "react-hot-toast";
+import HashLoader from "react-spinners/HashLoader";
+import axios from "axios";
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewURL, setPreviewURL] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formData, setFromData] = useState({
     name: "",
     email: "",
     password: "",
-    // photo: "",
     photo: selectedFile,
     gender: "",
-    role: "patient", 
+    role: "patient",
   });
+
   const handleInputChange = (e) => {
     setFromData({ ...formData, [e.target.name]: e.target.value });
   };
   const handleFileInputChange = async (e) => {
     const file = e.target.files[0];
-    // const data = await uploadImageToCloudinary(file);
-    // console.log("FORM DATA", data);
-    console.log(file);
+    const data = await uploadImageToCloudinary(file);
+    setPreviewURL(data.url);
+    setSelectedFile(data.url);
+    setFromData({ ...formData, photo: data.url });
   };
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    setLoading(true);
+    try {
+      const user = {
+        email: formData.email,
+        password: formData.password,
+        name: formData.name,
+        role: formData.role,
+        photo: formData.photo,
+        gender: formData.gender,
+      };
+      console.log(user);
+      const res = await axios.post(`${BASE_URL}/auth/register`, user, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const { message } = res.data;
+      if (res.status !== 200) {
+        throw new Error(message);
+      }
+      setLoading(false);
+      toast.success(message);
+      // Navigate to the login page
+      navigate("/login");
+      setFromData({
+        name: "",
+        email: "",
+        password: "",
+        photo: null,
+        gender: "",
+        role: "patient",
+      });
+      setPreviewURL("");
+      setSelectedFile(null);
+    } catch (error) {
+      console.log(error.message);
+      toast.error(error.message);
+      setLoading(false);
+    }
   };
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -93,8 +138,6 @@ const Signup = () => {
                   Are you a:
                   <select
                     name="role"
-                    text
-                    id=""
                     value={formData.role}
                     onChange={handleInputChange}
                     className="text-textColor font-semibold text-[15px] leading-7 px-4 py-3"
@@ -107,8 +150,6 @@ const Signup = () => {
                   Gender:
                   <select
                     name="gender"
-                    text
-                    id=""
                     value={formData.gender}
                     onChange={handleInputChange}
                     className="text-textColor font-semibold text-[15px] leading-7 px-4 py-3"
@@ -121,9 +162,15 @@ const Signup = () => {
                 </label>
               </div>
               <div className="mt-5 flex items-center gap-3">
-                <figure className="w-[60px] h-[60px] rounded-full border-2 border-solid border-primaryColor flex items-center justify-center">
-                  <img src={avatar} alt="" className="w-full rounded-full" />
-                </figure>
+                {selectedFile && (
+                  <figure className="w-[60px] h-[60px] rounded-full border-2 border-solid border-primaryColor flex items-center justify-center">
+                    <img
+                      src={previewURL}
+                      alt=""
+                      className="w-full rounded-full"
+                    />
+                  </figure>
+                )}
                 <div className="relative w-[130px] h-[50px]">
                   <input
                     type="file"
@@ -144,9 +191,14 @@ const Signup = () => {
               <div className="mt-7">
                 <button
                   type="submit"
+                  disabled={loading && true}
                   className="w-full bg-primaryColor text-white leading-[30px] rounded-lg px-4 py-3"
                 >
-                  Sign Up
+                  {loading ? (
+                    <HashLoader size={35} color="#ffffff" />
+                  ) : (
+                    "Sign Up"
+                  )}
                 </button>
               </div>
               <p className="mt-5 text-textColor text-center">

@@ -1,15 +1,62 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import { BASE_URL } from "../config";
+import toast from "react-hot-toast";
+import { authContext } from "../context/AuthContext.jsx";
+// import { authContext } from "../context/AuthContext.jsx";
+import axios from "axios";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { dispatch } = useContext(authContext);
+  // const { dispatch } = useContext(authContext);
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formData, setFromData] = useState({
     email: "",
     password: "",
   });
   const handleInputChange = (e) => {
     setFromData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const user = {
+        email: formData.email,
+        password: formData.password,
+      };
+      const res = await axios.post(`${BASE_URL}/auth/login`, user, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const { message } = res.data;
+      if (res.status !== 200) {
+        throw new Error(message);
+      }
+      dispatch({
+        type: "LOGIN_SUCCESS",
+        payload: {
+          user: res.data,
+          token: res.token,
+          role: res.role,
+        },
+      });
+      console.log("Login data", res);
+      setLoading(false);
+      toast.success(message);
+      navigate("/");
+      setFromData({
+        email: "",
+        password: "",
+      });
+    } catch (error) {
+      toast.error(error.message);
+      setLoading(false);
+    }
   };
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -20,7 +67,7 @@ const Login = () => {
         <h3 className="text-headingColor text-[22px] leading-9 font-bold mb-10">
           Hello! <span className="text-primaryColor">Welcome</span> Back 🎉
         </h3>
-        <form action="" className="py-4 md:py-0">
+        <form onSubmit={submitHandler} className="py-4 md:py-0">
           <div className="mb-5">
             <input
               type="email"

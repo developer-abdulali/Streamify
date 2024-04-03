@@ -1,11 +1,5 @@
 const upload_preset = process.env.REACT_APP_UPLOAD_PRESET;
 const cloud_name = process.env.REACT_APP_CLOUD_NAME;
-// const upload_preset = process.env.REACT_APP_VITE_UPLOAD_PRESET;
-// const cloud_name = process.env.REACT_APP_VITE_CLOUD_NAME;
-
-const cloudinary_api_key = 916933874973413
-
-const cloudinary_api_secret = "RdYS5FWtv7GJ_anY99wiPC9rnAY"
 
 const uploadImageToCloudinary = async (file) => {
   const uploadData = new FormData();
@@ -19,16 +13,14 @@ const uploadImageToCloudinary = async (file) => {
     {
       method: "post",
       body: uploadData,
-      headers: {
-        'Authorization': 'Basic ' + btoa(`${cloudinary_api_key}:${cloudinary_api_secret}`),
-      },
     }
   );
-  const data = res.json();
+  const data = await res.json();
   return data;
 };
 
 export default uploadImageToCloudinary;
+
 
 // const upload_preset = process.env.REACT_APP_UPLOAD_PRESET;
 // const cloud_name = process.env.REACT_APP_CLOUD_NAME;
