@@ -4,13 +4,11 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { BASE_URL } from "../config";
 import toast from "react-hot-toast";
 import { authContext } from "../context/AuthContext.jsx";
-// import { authContext } from "../context/AuthContext.jsx";
 import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
   const { dispatch } = useContext(authContext);
-  // const { dispatch } = useContext(authContext);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formData, setFromData] = useState({
@@ -20,9 +18,10 @@ const Login = () => {
   const handleInputChange = (e) => {
     setFromData({ ...formData, [e.target.name]: e.target.value });
   };
+
   const submitHandler = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    setLoading(true);  
     try {
       const user = {
         email: formData.email,
@@ -33,22 +32,22 @@ const Login = () => {
           "Content-Type": "application/json",
         },
       });
-      const { message } = res.data;
       if (res.status !== 200) {
-        throw new Error(message);
+        throw new Error(res.data.message);
       }
       dispatch({
         type: "LOGIN_SUCCESS",
         payload: {
-          user: res.data,
-          token: res.token,
-          role: res.role,
+          user: res.data.data.name,
+          // user: res.data.user,
+          token: res.data.token,
+          role: res.data.role,
         },
       });
-      console.log("Login data", res);
+      console.log("Login data", res.data);
       setLoading(false);
-      toast.success(message);
-      navigate("/");
+      toast.success("Login successful");
+      navigate("/home");
       setFromData({
         email: "",
         password: "",
@@ -58,6 +57,47 @@ const Login = () => {
       setLoading(false);
     }
   };
+  
+
+  // const submitHandler = async (e) => {
+  //   e.preventDefault();
+  //   setLoading(true);  
+  //   try {
+  //     const user = {
+  //       email: formData.email,
+  //       password: formData.password,
+  //     };
+  //     const res = await axios.post(`${BASE_URL}/auth/login`,user, {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(formData),
+  //     });
+  //     const result = await res.json();
+  //     if (!res.ok) {
+  //       throw new Error(result.message);
+  //     }
+  //     dispatch({
+  //       type: "LOGIN_SUCCESS",
+  //       payload: {
+  //         user: res.data,
+  //         token: res.token,
+  //         role: res.role,
+  //       },
+  //     });
+  //     console.log("Login data", result);
+  //     setLoading(false);
+  //     toast.success(message);
+  //     navigate("/home");
+  //     setFromData({
+  //       email: "",
+  //       password: "",
+  //     });
+  //   } catch (error) {
+  //     toast.error(error.message);
+  //     setLoading(false);
+  //   }
+  // };
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };

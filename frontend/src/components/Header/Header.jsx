@@ -95,12 +95,12 @@ const Header = () => {
                 >
                   <figure className="w-[35px] h-[35px] rounded-full cursor-pointer">
                     <img
-                      src={user?.photo}
+                      src={user?.data?.photo}
                       alt="User"
                       className="w-full rounded-full"
                     />
                   </figure>
-                  <h2>{user?.name}</h2>
+                  <h2>{user}</h2>
                 </Link>
               </div>
             ) : (
