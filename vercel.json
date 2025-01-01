@@ -3,9 +3,13 @@
   "builds": [
     {
       "src": "package.json",
-      "use": "@vercel/react"
+      "use": "@vercel/static-build"
     }
   ],
+  "env": {
+    "REACT_APP_APPID": "your_app_id_here",
+    "REACT_APP_SERVER_SECRET": "your_server_secret_here"
+  },
   "routes": [
     {
       "src": "/(.*)",
