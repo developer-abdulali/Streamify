@@ -1,11 +1,20 @@
 import { Link, useLocation } from "react-router";
 import useAuthUser from "../hooks/useAuthUser";
-import { BellIcon, HomeIcon, ShipWheelIcon, UsersIcon } from "lucide-react";
+import {
+  BellIcon,
+  HomeIcon,
+  LogOutIcon,
+  ShipWheelIcon,
+  UsersIcon,
+} from "lucide-react";
+import useLogout from "../hooks/useLogout";
 
 const Sidebar = () => {
   const { authUser } = useAuthUser();
   const location = useLocation();
   const currentPath = location.pathname;
+
+  const { logoutMutation } = useLogout();
 
   return (
     <aside className="w-64 bg-base-200 border-r border-base-300 hidden lg:flex flex-col h-screen sticky top-0">
@@ -65,6 +74,11 @@ const Sidebar = () => {
               Online
             </p>
           </div>
+
+          {/* Logout button */}
+          <button className="btn btn-ghost btn-circle" onClick={logoutMutation}>
+            <LogOutIcon className="h-6 w-6 text-base-content opacity-70" />
+          </button>
         </div>
       </div>
     </aside>

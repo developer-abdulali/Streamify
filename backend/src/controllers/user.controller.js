@@ -16,7 +16,7 @@ export const getRecommendedUsers = async (req, res) => {
     res.status(200).json(recommendedUsers);
   } catch (error) {
     console.error("Error in getRecommendedUsers controller", error.message);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ message: "getRecommendedUsers controller Error" });
   }
 };
 
@@ -32,7 +32,7 @@ export const getMyFriends = async (req, res) => {
     res.status(200).json(user.friends);
   } catch (error) {
     console.error("Error in getMyFriends controller", error.message);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ message: "Get MyFriends controller Error" });
   }
 };
 
@@ -81,8 +81,8 @@ export const sendFriendRequest = async (req, res) => {
 
     res.status(201).json(friendRequest);
   } catch (error) {
-    console.error("Error in sendFriendRequest controller", error.message);
-    res.status(500).json({ message: "Internal Server Error" });
+    console.error("Error in send FriendRequest controller", error.message);
+    res.status(500).json({ message: "Send FriendRequest controller Error" });
   }
 };
 
@@ -119,7 +119,7 @@ export const acceptFriendRequest = async (req, res) => {
     res.status(200).json({ message: "Friend request accepted" });
   } catch (error) {
     console.log("Error in acceptFriendRequest controller", error.message);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ message: "Accept Friend Request controller Error" });
   }
 };
 
@@ -141,7 +141,7 @@ export const getFriendRequests = async (req, res) => {
     res.status(200).json({ incomingReqs, acceptedReqs });
   } catch (error) {
     console.log("Error in getPendingFriendRequests controller", error.message);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ message: "Get Pending Friend Requests Error" });
   }
 };
 
@@ -158,6 +158,6 @@ export const getOutgoingFriendReqs = async (req, res) => {
     res.status(200).json(outgoingRequests);
   } catch (error) {
     console.log("Error in getOutgoingFriendReqs controller", error.message);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ message: "Get Outgoing Friend Reqs Error" });
   }
 };
