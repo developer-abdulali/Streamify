@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { upsertStreamUser } from "../lib/stream.js";
 import dotenv from "dotenv";
+import connectDB from "../lib/db.js";
 dotenv.config();
 
 export const signup = async (req, res) => {
@@ -79,6 +80,7 @@ export const signup = async (req, res) => {
 };
 
 export const login = async (req, res) => {
+  await connectDB();
   const { email, password } = req.body;
 
   try {
