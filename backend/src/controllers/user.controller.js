@@ -1,7 +1,7 @@
 import User from "../models/User.js";
 import FriendRequest from "../models/FriendRequest.js";
 
-export const getRecommendedUsers = async (req, res) => {
+export async function getRecommendedUsers(req, res) {
   try {
     const currentUserId = req.user.id;
     const currentUser = req.user;
@@ -16,36 +16,31 @@ export const getRecommendedUsers = async (req, res) => {
     res.status(200).json(recommendedUsers);
   } catch (error) {
     console.error("Error in getRecommendedUsers controller", error.message);
-    res.status(500).json({ message: "getRecommendedUsers controller Error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
-};
+}
 
-export const getMyFriends = async (req, res) => {
+export async function getMyFriends(req, res) {
   try {
     const user = await User.findById(req.user.id)
       .select("friends")
-      .populate(
-        "friends",
-        "fullName profilePic nativeLanguage learningLanguage"
-      );
+      .populate("friends", "fullName profilePic nativeLanguage learningLanguage");
 
     res.status(200).json(user.friends);
   } catch (error) {
     console.error("Error in getMyFriends controller", error.message);
-    res.status(500).json({ message: "Get MyFriends controller Error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
-};
+}
 
-export const sendFriendRequest = async (req, res) => {
+export async function sendFriendRequest(req, res) {
   try {
     const myId = req.user.id;
     const { id: recipientId } = req.params;
 
     // prevent sending req to yourself
     if (myId === recipientId) {
-      return res
-        .status(400)
-        .json({ message: "You can't send friend request to yourself" });
+      return res.status(400).json({ message: "You can't send friend request to yourself" });
     }
 
     const recipient = await User.findById(recipientId);
@@ -55,9 +50,7 @@ export const sendFriendRequest = async (req, res) => {
 
     // check if user is already friends
     if (recipient.friends.includes(myId)) {
-      return res
-        .status(400)
-        .json({ message: "You are already friends with this user" });
+      return res.status(400).json({ message: "You are already friends with this user" });
     }
 
     // check if a req already exists
@@ -69,9 +62,9 @@ export const sendFriendRequest = async (req, res) => {
     });
 
     if (existingRequest) {
-      return res.status(400).json({
-        message: "A friend request already exists between you and this user",
-      });
+      return res
+        .status(400)
+        .json({ message: "A friend request already exists between you and this user" });
     }
 
     const friendRequest = await FriendRequest.create({
@@ -81,12 +74,12 @@ export const sendFriendRequest = async (req, res) => {
 
     res.status(201).json(friendRequest);
   } catch (error) {
-    console.error("Error in send FriendRequest controller", error.message);
-    res.status(500).json({ message: "Send FriendRequest controller Error" });
+    console.error("Error in sendFriendRequest controller", error.message);
+    res.status(500).json({ message: "Internal Server Error" });
   }
-};
+}
 
-export const acceptFriendRequest = async (req, res) => {
+export async function acceptFriendRequest(req, res) {
   try {
     const { id: requestId } = req.params;
 
@@ -98,9 +91,7 @@ export const acceptFriendRequest = async (req, res) => {
 
     // Verify the current user is the recipient
     if (friendRequest.recipient.toString() !== req.user.id) {
-      return res
-        .status(403)
-        .json({ message: "You are not authorized to accept this request" });
+      return res.status(403).json({ message: "You are not authorized to accept this request" });
     }
 
     friendRequest.status = "accepted";
@@ -119,19 +110,16 @@ export const acceptFriendRequest = async (req, res) => {
     res.status(200).json({ message: "Friend request accepted" });
   } catch (error) {
     console.log("Error in acceptFriendRequest controller", error.message);
-    res.status(500).json({ message: "Accept Friend Request controller Error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
-};
+}
 
-export const getFriendRequests = async (req, res) => {
+export async function getFriendRequests(req, res) {
   try {
     const incomingReqs = await FriendRequest.find({
       recipient: req.user.id,
       status: "pending",
-    }).populate(
-      "sender",
-      "fullName profilePic nativeLanguage learningLanguage"
-    );
+    }).populate("sender", "fullName profilePic nativeLanguage learningLanguage");
 
     const acceptedReqs = await FriendRequest.find({
       sender: req.user.id,
@@ -141,23 +129,20 @@ export const getFriendRequests = async (req, res) => {
     res.status(200).json({ incomingReqs, acceptedReqs });
   } catch (error) {
     console.log("Error in getPendingFriendRequests controller", error.message);
-    res.status(500).json({ message: "Get Pending Friend Requests Error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
-};
+}
 
-export const getOutgoingFriendReqs = async (req, res) => {
+export async function getOutgoingFriendReqs(req, res) {
   try {
     const outgoingRequests = await FriendRequest.find({
       sender: req.user.id,
       status: "pending",
-    }).populate(
-      "recipient",
-      "fullName profilePic nativeLanguage learningLanguage"
-    );
+    }).populate("recipient", "fullName profilePic nativeLanguage learningLanguage");
 
     res.status(200).json(outgoingRequests);
   } catch (error) {
     console.log("Error in getOutgoingFriendReqs controller", error.message);
-    res.status(500).json({ message: "Get Outgoing Friend Reqs Error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
-};
+}

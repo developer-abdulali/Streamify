@@ -1,15 +1,16 @@
 import { useState } from "react";
-import { Eye, EyeOff, ShipWheelIcon } from "lucide-react";
+import { ShipWheelIcon, Eye, EyeOff } from "lucide-react";
 import { Link } from "react-router";
 import useSignUp from "../hooks/useSignUp";
 
 const SignUpPage = () => {
-  const [showPassword, setShowPassword] = useState(false);
   const [signupData, setSignupData] = useState({
     fullName: "",
     email: "",
     password: "",
   });
+
+  const [showPassword, setShowPassword] = useState(false);
 
   // This is how we did it using our custom hook - optimized version
   const { isPending, error, signupMutation } = useSignUp();
@@ -19,8 +20,12 @@ const SignUpPage = () => {
     signupMutation(signupData);
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
-    <section
+    <div
       className="h-screen flex items-center justify-center p-4 sm:p-6 md:p-8"
       data-theme="forest"
     >
@@ -42,129 +47,131 @@ const SignUpPage = () => {
             </div>
           )}
 
-          {/* <div className="w-full"> */}
-          <form onSubmit={handleSignup} className="w-full">
-            <div className="space-y-4">
-              <div>
-                <h2 className="text-xl font-semibold">Create an Account</h2>
-                <p className="text-sm opacity-70">
-                  Join Streamify and start your language learning adventure!
-                </p>
-              </div>
+          <div className="w-full">
+            <form onSubmit={handleSignup}>
+              <div className="space-y-4">
+                <div>
+                  <h2 className="text-xl font-semibold">Create an Account</h2>
+                  <p className="text-sm opacity-70">
+                    Join Streamify and start your language learning adventure!
+                  </p>
+                </div>
 
-              <div className="space-y-3">
-                {/* FULLNAME */}
-                <div className="form-control w-full">
-                  <label className="label">
-                    <span className="label-text">Full Name</span>
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="John Doe"
-                    className="input input-bordered w-full"
-                    value={signupData.fullName}
-                    onChange={(e) =>
-                      setSignupData({
-                        ...signupData,
-                        fullName: e.target.value,
-                      })
-                    }
-                    required
-                  />
-                </div>
-                {/* EMAIL */}
-                <div className="form-control w-full">
-                  <label className="label">
-                    <span className="label-text">Email</span>
-                  </label>
-                  <input
-                    type="email"
-                    placeholder="john@gmail.com"
-                    className="input input-bordered w-full"
-                    value={signupData.email}
-                    onChange={(e) =>
-                      setSignupData({ ...signupData, email: e.target.value })
-                    }
-                    required
-                  />
-                </div>
-                {/* PASSWORD */}
-                <div className="form-control w-full space-y-2">
-                  <label className="label">
-                    <span className="label-text">Password</span>
-                  </label>
-                  <div className="relative">
+                <div className="space-y-3">
+                  {/* FULLNAME */}
+                  <div className="form-control w-full">
+                    <label className="label">
+                      <span className="label-text">Full Name</span>
+                    </label>
                     <input
-                      type={showPassword ? "text" : "password"}
-                      placeholder="********"
-                      className="input input-bordered w-full pr-10"
-                      value={signupData.password}
+                      type="text"
+                      placeholder="John Doe"
+                      className="input input-bordered w-full"
+                      value={signupData.fullName}
                       onChange={(e) =>
                         setSignupData({
                           ...signupData,
-                          password: e.target.value,
+                          fullName: e.target.value,
                         })
                       }
                       required
                     />
+                  </div>
+                  {/* EMAIL */}
+                  <div className="form-control w-full">
+                    <label className="label">
+                      <span className="label-text">Email</span>
+                    </label>
+                    <input
+                      type="email"
+                      placeholder="john@gmail.com"
+                      className="input input-bordered w-full"
+                      value={signupData.email}
+                      onChange={(e) =>
+                        setSignupData({ ...signupData, email: e.target.value })
+                      }
+                      required
+                    />
+                  </div>
+                  {/* PASSWORD */}
+                  <div className="form-control w-full">
+                    <label className="label">
+                      <span className="label-text">Password</span>
+                    </label>
+                    <div className="relative">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        placeholder="********"
+                        className="input input-bordered w-full"
+                        value={signupData.password}
+                        onChange={(e) =>
+                          setSignupData({
+                            ...signupData,
+                            password: e.target.value,
+                          })
+                        }
+                        required
+                      />
+                      <button
+                        type="button"
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                        onClick={togglePasswordVisibility}
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-5 w-5 text-gray-500" />
+                        ) : (
+                          <Eye className="h-5 w-5 text-gray-500" />
+                        )}
+                      </button>
+                    </div>
                     <p className="text-xs opacity-70 mt-1">
                       Password must be at least 6 characters long
                     </p>
-                    <button
-                      type="button"
-                      className="absolute top-[14px] right-4 flex items-center text-gray-500 hover:text-primary"
-                      onClick={() => setShowPassword((prev) => !prev)}
-                      tabIndex={-1}
-                    >
-                      {showPassword ? (
-                        <EyeOff className="w-5 h-5" />
-                      ) : (
-                        <Eye className="w-5 h-5" />
-                      )}
-                    </button>
+                  </div>
+
+                  <div className="form-control">
+                    <label className="label cursor-pointer justify-start gap-2">
+                      <input
+                        type="checkbox"
+                        className="checkbox checkbox-sm"
+                        required
+                      />
+                      <span className="text-xs leading-tight">
+                        I agree to the{" "}
+                        <span className="text-primary hover:underline">
+                          terms of service
+                        </span>{" "}
+                        and{" "}
+                        <span className="text-primary hover:underline">
+                          privacy policy
+                        </span>
+                      </span>
+                    </label>
                   </div>
                 </div>
 
-                <div className="form-control">
-                  <label className="label cursor-pointer justify-start gap-2">
-                    <input
-                      type="checkbox"
-                      className="checkbox checkbox-sm"
-                      required
-                    />
-                    <span className="text-xs leading-tight">
-                      I agree to the{" "}
-                      <span className="text-primary hover:underline">
-                        terms of service
-                      </span>{" "}
-                      and{" "}
-                      <span className="text-primary hover:underline">
-                        privacy policy
-                      </span>
-                    </span>
-                  </label>
+                <button className="btn btn-primary w-full" type="submit">
+                  {isPending ? (
+                    <>
+                      <span className="loading loading-spinner loading-xs"></span>
+                      Loading...
+                    </>
+                  ) : (
+                    "Create Account"
+                  )}
+                </button>
+
+                <div className="text-center mt-4">
+                  <p className="text-sm">
+                    Already have an account?{" "}
+                    <Link to="/login" className="text-primary hover:underline">
+                      Sign in
+                    </Link>
+                  </p>
                 </div>
               </div>
-
-              <button className="btn btn-primary w-full" type="submit">
-                {isPending ? (
-                  <>
-                    <span className="loading loading-spinner loading-xs"></span>
-                    Loading...
-                  </>
-                ) : (
-                  "Create Account"
-                )}
-              </button>
-
-              <p className="text-sm text-center mt-4">
-                Already have an account?{" "}
-                <Link to="/login" className="text-primary hover:underline">
-                  Sign in
-                </Link>
-              </p>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
 
         {/* SIGNUP FORM - RIGHT SIDE */}
@@ -173,7 +180,7 @@ const SignUpPage = () => {
             {/* Illustration */}
             <div className="relative aspect-square max-w-sm mx-auto">
               <img
-                src="/call.png"
+                src="/i.png"
                 alt="Language connection illustration"
                 className="w-full h-full"
               />
@@ -191,7 +198,7 @@ const SignUpPage = () => {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

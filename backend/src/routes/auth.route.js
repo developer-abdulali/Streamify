@@ -1,22 +1,18 @@
 import express from "express";
-import {
-  checkLoggedInOrNOT,
-  login,
-  logout,
-  onboarding,
-  signup,
-} from "../controllers/auth.controller.js";
-import protectRoute from "../middlewares/auth.middleware.js";
+import { login, logout, onboard, signup } from "../controllers/auth.controller.js";
+import { protectRoute } from "../middleware/auth.middleware.js";
 
-const authRouter = express.Router();
+const router = express.Router();
 
-authRouter.post("/signup", signup);
-authRouter.post("/login", login);
-authRouter.post("/logout", logout);
+router.post("/signup", signup);
+router.post("/login", login);
+router.post("/logout", logout);
 
-authRouter.post("/onboarding", protectRoute, onboarding);
+router.post("/onboarding", protectRoute, onboard);
 
 // check if user is logged in
-authRouter.get("/me", protectRoute, checkLoggedInOrNOT);
+router.get("/me", protectRoute, (req, res) => {
+  res.status(200).json({ success: true, user: req.user });
+});
 
-export default authRouter;
+export default router;

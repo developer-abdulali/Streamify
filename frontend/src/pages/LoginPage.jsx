@@ -1,14 +1,15 @@
 import { useState } from "react";
-import { Eye, EyeOff, ShipWheelIcon } from "lucide-react";
+import { ShipWheelIcon, Eye, EyeOff } from "lucide-react";
 import { Link } from "react-router";
 import useLogin from "../hooks/useLogin";
 
 const LoginPage = () => {
-  const [showPassword, setShowPassword] = useState(false);
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
   });
+
+  const [showPassword, setShowPassword] = useState(false);
 
   // This is how we did it using our custom hook - optimized version
   const { isPending, error, loginMutation } = useLogin();
@@ -18,8 +19,12 @@ const LoginPage = () => {
     loginMutation(loginData);
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
-    <section
+    <div
       className="h-screen flex items-center justify-center p-4 sm:p-6 md:p-8"
       data-theme="forest"
     >
@@ -41,86 +46,95 @@ const LoginPage = () => {
             </div>
           )}
 
-          <form onSubmit={handleLogin} className="w-full">
-            <div className="space-y-4">
-              <div>
-                <h2 className="text-xl font-semibold">Welcome Back</h2>
-                <p className="text-sm opacity-70">
-                  Sign in to your account to continue your language journey
-                </p>
-              </div>
-
-              <div className="flex flex-col gap-3">
-                <div className="form-control w-full space-y-2">
-                  <label className="label">
-                    <span className="label-text">Email</span>
-                  </label>
-                  <input
-                    type="email"
-                    placeholder="hello@example.com"
-                    className="input input-bordered w-full"
-                    value={loginData.email}
-                    onChange={(e) =>
-                      setLoginData({ ...loginData, email: e.target.value })
-                    }
-                    required
-                  />
+          <div className="w-full">
+            <form onSubmit={handleLogin}>
+              <div className="space-y-4">
+                <div>
+                  <h2 className="text-xl font-semibold">Welcome Back</h2>
+                  <p className="text-sm opacity-70">
+                    Sign in to your account to continue your language journey
+                  </p>
                 </div>
 
-                <div className="form-control w-full space-y-2">
-                  <label className="label">
-                    <span className="label-text">Password</span>
-                  </label>
-                  <div className="relative">
+                <div className="flex flex-col gap-3">
+                  <div className="form-control w-full space-y-2">
+                    <label className="label">
+                      <span className="label-text">Email</span>
+                    </label>
                     <input
-                      type={showPassword ? "text" : "password"}
-                      placeholder="••••••••"
-                      className="input input-bordered w-full pr-10"
-                      value={loginData.password}
+                      type="email"
+                      placeholder="hello@example.com"
+                      className="input input-bordered w-full"
+                      value={loginData.email}
                       onChange={(e) =>
-                        setLoginData({ ...loginData, password: e.target.value })
+                        setLoginData({ ...loginData, email: e.target.value })
                       }
                       required
                     />
-                    <button
-                      type="button"
-                      className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-primary"
-                      onClick={() => setShowPassword((prev) => !prev)}
-                      tabIndex={-1}
-                    >
-                      {showPassword ? (
-                        <EyeOff className="w-5 h-5" />
-                      ) : (
-                        <Eye className="w-5 h-5" />
-                      )}
-                    </button>
+                  </div>
+
+                  <div className="form-control w-full space-y-2">
+                    <label className="label">
+                      <span className="label-text">Password</span>
+                    </label>
+                    <div className="relative">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        placeholder="••••••••"
+                        className="input input-bordered w-full"
+                        value={loginData.password}
+                        onChange={(e) =>
+                          setLoginData({
+                            ...loginData,
+                            password: e.target.value,
+                          })
+                        }
+                        required
+                      />
+                      <button
+                        type="button"
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                        onClick={togglePasswordVisibility}
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-5 w-5 text-gray-500" />
+                        ) : (
+                          <Eye className="h-5 w-5 text-gray-500" />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="btn btn-primary w-full"
+                    disabled={isPending}
+                  >
+                    {isPending ? (
+                      <>
+                        <span className="loading loading-spinner loading-xs"></span>
+                        Signing in...
+                      </>
+                    ) : (
+                      "Sign In"
+                    )}
+                  </button>
+
+                  <div className="text-center mt-4">
+                    <p className="text-sm">
+                      Don't have an account?{" "}
+                      <Link
+                        to="/signup"
+                        className="text-primary hover:underline"
+                      >
+                        Create one
+                      </Link>
+                    </p>
                   </div>
                 </div>
-
-                <button
-                  type="submit"
-                  className="btn btn-primary w-full"
-                  disabled={isPending}
-                >
-                  {isPending ? (
-                    <>
-                      <span className="loading loading-spinner loading-xs"></span>
-                      Signing in...
-                    </>
-                  ) : (
-                    "Sign In"
-                  )}
-                </button>
-
-                <p className="text-sm text-center mt-4">
-                  Don't have an account?{" "}
-                  <Link to="/signup" className="text-primary hover:underline">
-                    Create one
-                  </Link>
-                </p>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
 
         {/* IMAGE SECTION */}
@@ -129,7 +143,7 @@ const LoginPage = () => {
             {/* Illustration */}
             <div className="relative aspect-square max-w-sm mx-auto">
               <img
-                src="/call.png"
+                src="/i.png"
                 alt="Language connection illustration"
                 className="w-full h-full"
               />
@@ -147,7 +161,8 @@ const LoginPage = () => {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
+
 export default LoginPage;
