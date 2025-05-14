@@ -1,3 +1,38 @@
+// import User from "../models/User.js";
+// import jwt from "jsonwebtoken";
+// import dotenv from "dotenv";
+// dotenv.config();
+
+// const protectRoute = async (req, res, next) => {
+//   try {
+//     const token = req.cookies.jwt;
+
+//     if (!token)
+//       return res
+//         .status(401)
+//         .json({ message: "Unauthorized - No token provided" });
+
+//     const decode = jwt.verify(token, process.env.JWT_SECRET);
+
+//     if (!decode)
+//       return res.status(401).json({ message: "Unauthorized - Invalid token" });
+
+//     const user = await User.findById(decode.userId).select("-password");
+
+//     if (!user)
+//       return res.status(401).json({ message: "Unauthorized - User not found" });
+
+//     req.user = user;
+
+//     next();
+//   } catch (error) {
+//     console.log("Error in protectRoute middleware", error);
+//     return res.status(500).json({ message: "Protect Route middleware Error" });
+//   }
+// };
+
+// export default protectRoute;
+
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
@@ -6,29 +41,31 @@ dotenv.config();
 const protectRoute = async (req, res, next) => {
   try {
     const token = req.cookies.jwt;
+    console.log("Token:", token);
 
-    if (!token)
+    if (!token) {
       return res
         .status(401)
         .json({ message: "Unauthorized - No token provided" });
+    }
 
-    const decode = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log("Decoded JWT:", decoded);
 
-    if (!decode)
-      return res.status(401).json({ message: "Unauthorized - Invalid token" });
+    const user = await User.findById(decoded.userId).select("-password");
+    console.log("User from DB:", user);
 
-    const user = await User.findById(decode.userId).select("-password");
-
-    if (!user)
+    if (!user) {
       return res.status(401).json({ message: "Unauthorized - User not found" });
+    }
 
     req.user = user;
-
     next();
-  } catch (error) {
-    console.log("Error in protectRoute middleware", error);
-    return res.status(500).json({ message: "Protect Route middleware Error" });
+  } catch (err) {
+    console.error("Protect middleware error:", err.message);
+    return res
+      .status(401)
+      .json({ message: "Unauthorized - Invalid or expired token" });
   }
 };
-
 export default protectRoute;
