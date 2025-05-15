@@ -26,7 +26,7 @@ const App = () => {
   if (isLoading) return <PageLoader />;
 
   return (
-    <div className="h-screen" data-theme={theme}>
+    <main data-theme={theme}>
       <Routes>
         <Route
           path="/"
@@ -126,7 +126,7 @@ const App = () => {
       </Routes>
 
       <Toaster />
-    </div>
+    </main>
   );
 };
 export default App;
