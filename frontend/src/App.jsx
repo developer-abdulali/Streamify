@@ -53,7 +53,8 @@ const App = () => {
         <Route
           path="/login"
           element={
-            !isAuthenticated ? (
+            !isAuthenticated && !isOnboarded ? (
+              // !isAuthenticated ? (
               <Login />
             ) : (
               <Navigate to={isOnboarded ? "/" : "/onboarding"} />
