@@ -107,12 +107,24 @@ export async function login(req, res) {
   } catch (error) {
     console.log("Error in login controller", error.message);
     res.status(500).json({ message: "Internal Server Error" });
+    // res.clearCookie("jwt");
   }
 }
 
 export function logout(req, res) {
-  res.clearCookie("jwt");
-  res.status(200).json({ success: true, message: "Logout successful" });
+  try {
+    const isProduction = process.env.NODE_ENV === "production";
+    res.cookie("jwt", {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? "None" : "Lax",
+    });
+
+    res.status(200).json({ success: true, message: "Logout successful" });
+  } catch (error) {
+    console.log("Error in logout controller", error.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 }
 
 export async function onboard(req, res) {

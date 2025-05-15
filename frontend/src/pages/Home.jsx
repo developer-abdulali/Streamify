@@ -88,7 +88,7 @@ const Home = () => {
             Your Friends
           </h2>
           <Link to="/notifications" className="btn btn-outline btn-sm">
-            <UsersIcon className="mr-2 size-4" />
+            <UsersIcon className="size-4" />
             Friend Requests
           </Link>
         </div>
