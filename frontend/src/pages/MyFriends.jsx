@@ -6,7 +6,7 @@ import FriendCard from "../components/FriendCard";
 import NoFriendsFound from "../components/NoFriendsFound";
 import { Link } from "react-router";
 
-const FriendsPage = () => {
+const MyFriends = () => {
   const { data: friends = [], isLoading: loadingFriends } = useQuery({
     queryKey: ["friends"],
     queryFn: getUserFriends,
@@ -43,4 +43,4 @@ const FriendsPage = () => {
   );
 };
 
-export default FriendsPage;
+export default MyFriends;

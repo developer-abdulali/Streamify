@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { LANGUAGES } from "../constants";
 
-const OnboardingPage = () => {
+const Onboarding = () => {
   const { authUser } = useAuthUser();
   const queryClient = useQueryClient();
 
@@ -220,4 +220,4 @@ const OnboardingPage = () => {
     </section>
   );
 };
-export default OnboardingPage;
+export default Onboarding;

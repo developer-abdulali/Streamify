@@ -3,7 +3,7 @@ import { ShipWheelIcon, Eye, EyeOff } from "lucide-react";
 import { Link } from "react-router";
 import useSignUp from "../hooks/useSignUp";
 
-const SignUpPage = () => {
+const Signup = () => {
   const [signupData, setSignupData] = useState({
     fullName: "",
     email: "",
@@ -199,4 +199,4 @@ const SignUpPage = () => {
   );
 };
 
-export default SignUpPage;
+export default Signup;

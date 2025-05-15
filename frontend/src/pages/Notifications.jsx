@@ -9,7 +9,7 @@ import {
 import NoNotificationsFound from "../components/NoNotificationsFound";
 import { useState } from "react";
 
-const NotificationsPage = () => {
+const Notifications = () => {
   const queryClient = useQueryClient();
   const [pendingRequests, setPendingRequests] = useState(new Set()); // Track pending requests per user
 
@@ -164,4 +164,4 @@ const NotificationsPage = () => {
     </section>
   );
 };
-export default NotificationsPage;
+export default Notifications;

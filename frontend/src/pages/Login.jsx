@@ -3,7 +3,7 @@ import { ShipWheelIcon, Eye, EyeOff } from "lucide-react";
 import { Link } from "react-router";
 import useLogin from "../hooks/useLogin";
 
-const LoginPage = () => {
+const Login = () => {
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -159,4 +159,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default Login;

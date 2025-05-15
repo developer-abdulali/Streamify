@@ -17,7 +17,7 @@ import { capitialize } from "../lib/utils";
 import FriendCard, { getLanguageFlag } from "../components/FriendCard";
 import NoFriendsFound from "../components/NoFriendsFound";
 
-const HomePage = () => {
+const Home = () => {
   const queryClient = useQueryClient();
   const [outgoingRequestsIds, setOutgoingRequestsIds] = useState(new Set());
   const [pendingRequests, setPendingRequests] = useState(new Set());
@@ -213,4 +213,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default Home;
