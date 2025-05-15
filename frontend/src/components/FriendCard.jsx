@@ -10,24 +10,24 @@ const FriendCard = ({ friend }) => {
         {/* USER INFO */}
         <div className="flex items-center gap-3 mb-3">
           <div className="avatar size-12">
-            <img src={friend.profilePic} alt={friend.fullName} />
+            <img src={friend?.profilePic} alt={friend?.fullName} />
           </div>
-          <h3 className="font-semibold truncate">{friend.fullName}</h3>
+          <h3 className="font-semibold truncate">{friend?.fullName}</h3>
         </div>
 
         <div className="flex flex-wrap gap-1.5 mb-3">
           <span className="badge badge-secondary text-xs">
-            {getLanguageFlag(friend.nativeLanguage)}
-            Native: {friend.nativeLanguage}
+            {getLanguageFlag(friend?.nativeLanguage)}
+            Native: {friend?.nativeLanguage}
           </span>
           <span className="badge badge-outline text-xs">
-            {getLanguageFlag(friend.learningLanguage)}
-            Learning: {friend.learningLanguage}
+            {getLanguageFlag(friend?.learningLanguage)}
+            Learning: {friend?.learningLanguage}
           </span>
         </div>
 
         {friend?._id !== authUser?._id && (
-          <Link to={`/chat/${friend._id}`} className="btn btn-outline w-full">
+          <Link to={`/chat/${friend?._id}`} className="btn btn-outline w-full">
             Message
           </Link>
         )}
