@@ -40,7 +40,7 @@ const CallPage = () => {
       if (!tokenData.token || !authUser || !callId) return;
 
       try {
-        console.log("Initializing Stream video client...");
+        // console.log("Initializing Stream video client...");
 
         const user = {
           id: authUser._id,
@@ -58,7 +58,7 @@ const CallPage = () => {
 
         await callInstance.join({ create: true });
 
-        console.log("Joined call successfully");
+        // console.log("Joined call successfully");
 
         setClient(videoClient);
         setCall(callInstance);
@@ -76,7 +76,7 @@ const CallPage = () => {
   if (isLoading || isConnecting) return <PageLoader />;
 
   return (
-    <div className="h-screen flex flex-col items-center justify-center">
+    <section className="h-screen flex flex-col items-center justify-center">
       <div className="relative">
         {client && call ? (
           <StreamVideo client={client}>
@@ -90,7 +90,7 @@ const CallPage = () => {
           </div>
         )}
       </div>
-    </div>
+    </section>
   );
 };
 
