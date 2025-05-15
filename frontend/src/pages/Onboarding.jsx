@@ -109,7 +109,7 @@ const Onboarding = () => {
             {/* BIO */}
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Bio</span>
+                <span className="label-text">Short Bio</span>
               </label>
               <textarea
                 name="bio"

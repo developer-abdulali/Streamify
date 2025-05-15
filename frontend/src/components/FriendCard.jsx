@@ -4,6 +4,7 @@ import useAuthUser from "../hooks/useAuthUser";
 
 const FriendCard = ({ friend }) => {
   const { authUser } = useAuthUser();
+
   return (
     <div className="card bg-base-200 hover:shadow-md transition-shadow">
       <div className="card-body p-4">
@@ -26,6 +27,10 @@ const FriendCard = ({ friend }) => {
           </span>
         </div>
 
+        {friend.bio && authUser._id !== friend._id && (
+          <p className="text-sm opacity-70">{friend.bio}</p>
+        )}
+
         {friend?._id !== authUser?._id && (
           <Link to={`/chat/${friend?._id}`} className="btn btn-outline w-full">
             Message
@@ -37,7 +42,7 @@ const FriendCard = ({ friend }) => {
 };
 export default FriendCard;
 
-export function getLanguageFlag(language) {
+export const getLanguageFlag = (language) => {
   if (!language) return null;
 
   const langLower = language.toLowerCase();
@@ -53,4 +58,4 @@ export function getLanguageFlag(language) {
     );
   }
   return null;
-}
+};

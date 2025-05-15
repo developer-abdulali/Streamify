@@ -22,6 +22,7 @@ const App = () => {
 
   const isAuthenticated = Boolean(authUser);
   const isOnboarded = authUser?.isOnboarded;
+  // console.log("isOnboarded", isOnboarded);
 
   if (isLoading) return <PageLoader />;
 
@@ -129,4 +130,5 @@ const App = () => {
     </main>
   );
 };
+
 export default App;

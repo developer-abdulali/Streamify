@@ -19,10 +19,6 @@ const Signup = () => {
     signupMutation(signupData);
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
   return (
     <section
       className="h-screen flex items-center justify-center p-4 sm:p-6 md:p-8"
@@ -113,7 +109,7 @@ const Signup = () => {
                     <button
                       type="button"
                       className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                      onClick={togglePasswordVisibility}
+                      onClick={() => setShowPassword(!showPassword)}
                     >
                       {showPassword ? (
                         <EyeOff className="h-5 w-5 text-gray-500" />

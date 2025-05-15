@@ -27,6 +27,8 @@ const Home = () => {
     queryFn: getUserFriends,
   });
 
+  console.log("Friends", friends);
+
   const { data: recommendedUsers = [], isLoading: loadingUsers } = useQuery({
     queryKey: ["users"],
     queryFn: getRecommendedUsers,
@@ -135,13 +137,13 @@ const Home = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {recommendedUsers.map((user) => {
+              {recommendedUsers?.map((user) => {
                 const hasRequestBeenSent = outgoingRequestsIds.has(user._id);
                 const isRequestPending = pendingRequests.has(user._id);
 
                 return (
                   <div
-                    key={user._id}
+                    key={user?._id}
                     className="card bg-base-200 hover:shadow-lg transition-all duration-300"
                   >
                     <div className="card-body p-5 space-y-4">

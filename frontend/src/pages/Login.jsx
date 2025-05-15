@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ShipWheelIcon, Eye, EyeOff } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import useLogin from "../hooks/useLogin";
 
 const Login = () => {
@@ -16,10 +16,6 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     loginMutation(loginData);
-  };
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
   };
 
   return (
@@ -92,7 +88,7 @@ const Login = () => {
                     <button
                       type="button"
                       className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                      onClick={togglePasswordVisibility}
+                      onClick={() => setShowPassword(!showPassword)}
                     >
                       {showPassword ? (
                         <EyeOff className="h-5 w-5 text-gray-500" />
