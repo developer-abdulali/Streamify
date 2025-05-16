@@ -118,6 +118,7 @@ export function logout(req, res) {
       httpOnly: true,
       secure: isProduction,
       sameSite: isProduction ? "None" : "Lax",
+      path: "/",
     });
 
     res.status(200).json({ success: true, message: "Logout successful" });

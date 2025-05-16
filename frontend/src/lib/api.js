@@ -12,7 +12,7 @@ export const login = async (loginData) => {
 
 export const logout = async () => {
   const response = await axiosInstance.post("/auth/logout");
-  console.log("logout", response);
+  // console.log("logout", response);
   return response.data;
 };
 
