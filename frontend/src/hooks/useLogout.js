@@ -36,9 +36,13 @@ const useLogout = () => {
   } = useMutation({
     mutationFn: logout,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["authUser"] });
-      queryClient.setQueryData(["authUser"], null); // Clear authUser data
-      navigate("/login", { replace: true }); // Navigate to login
+      // Clear authUser query data and prevent refetch
+      queryClient.setQueryData(["authUser"], null);
+      queryClient.removeQueries(["authUser"]); // Remove query to prevent refetch
+      queryClient.invalidateQueries({ queryKey: ["authUser"], refetch: false });
+
+      // Navigate to login
+      navigate("/login", { replace: true });
     },
     onError: (error) => {
       console.error("Logout error:", error);

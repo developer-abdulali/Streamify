@@ -112,21 +112,36 @@ export async function login(req, res) {
 }
 
 export function logout(req, res) {
-  try {
-    const isProduction = process.env.NODE_ENV === "production";
-    res.cookie("jwt", {
-      httpOnly: true,
-      secure: isProduction,
-      sameSite: isProduction ? "None" : "Lax",
-      path: "/",
-    });
+  const isProduction = process.env.NODE_ENV === "production";
 
-    res.status(200).json({ success: true, message: "Logout successful" });
-  } catch (error) {
-    console.log("Error in logout controller", error.message);
-    res.status(500).json({ message: "Internal Server Error" });
-  }
+  console.log("Clearing JWT cookie for logout");
+
+  res.clearCookie("jwt", {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? "None" : "Lax",
+    path: "/",
+  });
+
+  res.status(200).json({ success: true, message: "Logout successful" });
 }
+
+// export function logout(req, res) {
+//   try {
+//     const isProduction = process.env.NODE_ENV === "production";
+//     res.cookie("jwt", {
+//       httpOnly: true,
+//       secure: isProduction,
+//       sameSite: isProduction ? "None" : "Lax",
+//       path: "/",
+//     });
+
+//     res.status(200).json({ success: true, message: "Logout successful" });
+//   } catch (error) {
+//     console.log("Error in logout controller", error.message);
+//     res.status(500).json({ message: "Internal Server Error" });
+//   }
+// }
 
 export async function onboard(req, res) {
   try {
