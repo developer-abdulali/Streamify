@@ -16,8 +16,8 @@ const PORT = process.env.PORT || 5000; // fallback port
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
-    // origin: ["http://localhost:5173", process.env.FRONTEND_URL],
+    // origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", process.env.FRONTEND_URL],
     credentials: true,
   })
 );
