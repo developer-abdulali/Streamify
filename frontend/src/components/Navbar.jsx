@@ -80,7 +80,7 @@
 
 // export default Navbar;
 
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router";
 import useAuthUser from "../hooks/useAuthUser";
 import { BellIcon, ShipWheelIcon } from "lucide-react";
 import ThemeSelector from "./ThemeSelector";
