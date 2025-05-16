@@ -11,26 +11,15 @@ export const login = async (loginData) => {
 };
 
 export const logout = async () => {
-  try {
-    const response = await axiosInstance.post("/auth/logout");
-    return response.data;
-  } catch (error) {
-    console.error("Logout API error:", error);
-    throw error;
-  }
+  const response = await axiosInstance.post("/auth/logout");
+  // console.log("logout", response);
+  return response.data;
 };
-
-// export const logout = async () => {
-//   const response = await axiosInstance.post("/auth/logout");
-//   // console.log("logout", response);
-//   return response.data;
-// };
 
 export const getAuthUser = async () => {
   try {
-    const response = await axiosInstance.get("/auth/me");
-    return response.data.user || null;
-    // return res.data;
+    const res = await axiosInstance.get("/auth/me");
+    return res.data;
   } catch (error) {
     console.log("Error in getAuthUser:", error);
     return null;
